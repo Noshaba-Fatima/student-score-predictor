@@ -74,13 +74,6 @@ Since the model file is large, it is stored on **Google Drive** and dynamically 
 - ☁️ Cloud-deployed ML app
 - 🔄 Dynamic model loading
 
----
-
-## 📸 Screenshot
-
-(Add screenshot of your app here)
-
----
 
 ## 🚀 Future Improvements
 
