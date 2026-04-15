@@ -3,13 +3,24 @@ import pandas as pd
 import joblib
 import os
 import matplotlib.pyplot as plt
+import gdown
 
 # ---------------- APP START ----------------
 st.write("App started")
 
-# ---------------- MODEL LOAD ----------------
-model_path = os.path.join(os.path.dirname(__file__), "model.pkl")
+# ---------------- MODEL DOWNLOAD + LOAD ----------------
+model_path = "model.pkl"
 
+# ✅ Your Google Drive FILE ID
+file_id = "1-MFhRKPa_jAUL2HTX6nxiC55BxfOUHrP"
+url = f"https://drive.google.com/uc?id={file_id}"
+
+# Download model if not exists
+if not os.path.exists(model_path):
+    st.info("Downloading model... please wait ⏳")
+    gdown.download(url, model_path, quiet=False)
+
+# Load model
 try:
     model = joblib.load(model_path)
 except Exception as e:
@@ -83,12 +94,7 @@ if st.button("Predict Score"):
         st.subheader("📊 Performance Overview")
 
         labels = ["Study Hours", "Attendance (%)", "Sleep Hours"]
-
-        values = [
-            study_hours,
-            class_attendance,
-            sleep_hours
-        ]
+        values = [study_hours, class_attendance, sleep_hours]
 
         fig, ax = plt.subplots()
         ax.bar(labels, values)
