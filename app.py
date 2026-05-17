@@ -11,14 +11,18 @@ st.write("App started")
 # ---------------- MODEL DOWNLOAD + LOAD ----------------
 model_path = "model.pkl"
 
-# ✅ Your Google Drive FILE ID
-file_id = "1-MFhRKPa_jAUL2HTX6nxiC55BxfOUHrP"
-url = f"https://drive.google.com/uc?id={file_id}"
+# ✅ Your verified public Google Drive FILE ID
+file_id = "1-rcBIdFv_LjcXKHibIUkOwowmdQJgctI"
 
-# Download model if not exists
+# Download model if it does not exist locally on the server
 if not os.path.exists(model_path):
-    st.info("Downloading model... please wait ⏳")
-    gdown.download(url, model_path, quiet=False)
+    with st.spinner("Downloading model... please wait ⏳"):
+        try:
+            # Using id= is significantly more reliable for Google Drive links
+            gdown.download(id=file_id, output=model_path, quiet=False)
+        except Exception as e:
+            st.error("The model download failed. Please check your internet connection or Google Drive permissions.")
+            st.stop()
 
 # Load model
 try:
@@ -106,3 +110,4 @@ if st.button("Predict Score"):
 
     except Exception as e:
         st.error(f"Prediction error: {e}")
+ 
