@@ -8,28 +8,23 @@ import gdown
 # ---------------- APP START ----------------
 st.write("App started")
 
-# ---------------- MODEL DOWNLOAD + LOAD ----------------
+# ---------------- CACHED MODEL DOWNLOAD + LOAD ----------------
 model_path = "model.pkl"
-
-# ✅ Your verified public Google Drive FILE ID
 file_id = "1-rcBIdFv_LjcXKHibIUkOwowmdQJgctI"
 
-# Download model if it does not exist locally on the server
-if not os.path.exists(model_path):
-    with st.spinner("Downloading model... please wait ⏳"):
+# st.cache_resource keeps the model in memory ONCE across all users
+# and prevents gdown from running repeatedly and wasting RAM.
+@st.cache_resource
+def load_prediction_model():
+    if not os.path.exists(model_path):
         try:
-            # Using id= is significantly more reliable for Google Drive links
-            gdown.download(id=file_id, output=model_path, quiet=False)
+            gdown.download(id=file_id, output=model_path, quiet=True)
         except Exception as e:
-            st.error("The model download failed. Please check your internet connection or Google Drive permissions.")
+            st.error("Model download failed.")
             st.stop()
+    return joblib.load(model_path)
 
-# Load model
-try:
-    model = joblib.load(model_path)
-except Exception as e:
-    st.error(f"Model loading failed: {e}")
-    st.stop()
+model = load_prediction_model()
 
 # ---------------- TITLE ----------------
 st.title("🎓 Student Exam Score Predictor")
@@ -94,20 +89,24 @@ if st.button("Predict Score"):
         if internet_access == "no":
             st.write("🌐 No internet access may limit learning")
 
-        # ---------------- VISUALIZATION ----------------
+        # ---------------- VISUALIZATION (MEMORY FIX) ----------------
         st.subheader("📊 Performance Overview")
 
         labels = ["Study Hours", "Attendance (%)", "Sleep Hours"]
         values = [study_hours, class_attendance, sleep_hours]
 
+        # Explicitly clear any old figures from memory before drawing
+        plt.clf() 
+        
         fig, ax = plt.subplots()
         ax.bar(labels, values)
-
         ax.set_ylabel("Value")
         ax.set_title("Student Performance Comparison")
 
         st.pyplot(fig)
+        
+        # CRITICAL MEMORY FIX: Close the figure completely after rendering
+        plt.close(fig) 
 
     except Exception as e:
         st.error(f"Prediction error: {e}")
- 
