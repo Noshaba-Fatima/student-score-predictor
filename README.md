@@ -1,15 +1,10 @@
-# 🎓 Student Exam Score Predictor (ML Web App)
+#  Student Exam Score Predictor (ML Web App)
 
 A machine learning-powered web application built using **Streamlit** that predicts student exam scores based on academic and lifestyle factors.
 
 ---
 
-## 🚀 Live Demo
-👉 https://student-score-predictor.streamlit.app (add your link here)
-
----
-
-## 📌 Project Overview
+##  Project Overview
 
 This project predicts a student's exam score using inputs like:
 - Study hours
@@ -25,7 +20,7 @@ It also provides:
 
 ---
 
-## 🧠 Machine Learning Model
+##  Machine Learning Model
 
 - Model trained using **Scikit-learn**
 - Preprocessing includes **OneHotEncoding**
@@ -34,21 +29,16 @@ It also provides:
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
-- Python 🐍
-- Pandas 📊
-- Scikit-learn 🤖
-- Streamlit 🌐
-- Matplotlib 📈
-- Joblib 📦
-- Google Drive (model storage ☁️)
+- Python 
+- Pandas 
+- Scikit-learn 
+- Streamlit 
+- Matplotlib 
+- Joblib 
+- Google Drive (model storage)
 
----
-
-## 📂 Project Structure
-
----
 
 ## ⚙️ How It Works
 
